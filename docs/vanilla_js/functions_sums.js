@@ -10,6 +10,5 @@ function sum(item) {
 
 {
   let sum_number = [1, 2, 3, 4, 5];
-  let result = sum(item);
-  console.log(result);
+  console.log(`${sum(sum_number)}`);
 }
