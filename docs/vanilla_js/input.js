@@ -8,11 +8,6 @@ const filepath =
 // let splits = trim.split(" ");
 // let inputs = splits.map(Number);
 
-let inputs = fs
-  .readFileSync("/dev/stdin")
-  .toString()
-  .trim()
-  .split(" ")
-  .map(Number);
+let inputs = fs.readFileSync(filepath).toString().trim().split(" ");
 
 console.log(inputs[0] + inputs[1]);

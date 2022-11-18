@@ -40,3 +40,24 @@ const cars = ["BMW", "Volvo", "Mini"];
 for (let car of cars) {
   console.log(`${car}`);
 }
+//car (foreach)
+array1.forEach((car) => {
+  console.log(`${car}`);
+});
+
+// forEach (javascript에만 있는 기능)
+const array1 = ["a", "b", "c"];
+
+array1.forEach((element) => console.log(element)); //// function: (element => console.log(element)
+
+// Arrow Function
+let arrowFunction = (element) => {
+  console.log(element);
+};
+array1.forEach(arrowFunction); // array1.forEach(element => console.log(element)); 와 같은말
+
+// Normal Function
+function normalFunction(element) {
+  console.log(element);
+}
+array1.forEach(normalFunction);
