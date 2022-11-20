@@ -9,6 +9,7 @@ for (i = 2; i < animals.length; i++) {
 }
 
 // for iterable
+// index no를 알 수 없을 때 불편 -> foreach 사용
 for (let animal of animals) {
   console.log(`${animal}`);
 }
@@ -48,11 +49,11 @@ array1.forEach((car) => {
 // forEach (javascript에만 있는 기능)
 const array1 = ["a", "b", "c"];
 
-array1.forEach((element) => console.log(element)); //// function: (element => console.log(element)
+array1.forEach((element, i) => console.log(element)); //// function: (element => console.log(element)
 
 // Arrow Function
-let arrowFunction = (element) => {
-  console.log(element);
+let arrowFunction = (element, index) => {
+  console.log(`${element}, index ${index}`);
 };
 array1.forEach(arrowFunction); // array1.forEach(element => console.log(element)); 와 같은말
 
