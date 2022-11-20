@@ -22,6 +22,11 @@ const filepath =
 
 let inputs = fs.readFileSync(filepath).toString().trim().split("\n").map(Number);
 
+let input_answers = [];
+for (let i = 0; i < 5; i++) {
+  input_answers[i] = input[i];
+}
+
 
 // =======================================입력=======================================
 // 문항
