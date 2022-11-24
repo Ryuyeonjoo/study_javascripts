@@ -81,8 +81,11 @@ for (let idx = 0; idx < questions_answers.length; idx++) {
     } else {
       // console.log(`== : ${questions_answers[idx]["answer_uid"]}`);
       questions.push(questions_answers[idx]["answer_uid"]);
+      if(idx +1 >= questions_answers.length) {
+        pollls.push(questions);
+      }
     }
     question_compare = questions_answers[idx]["questions_uid"]; // 이전 uid 입력
   }
-  polls.push(questions); //추가
+  polls.push(questions); 
   console.log(`${polls}`);
