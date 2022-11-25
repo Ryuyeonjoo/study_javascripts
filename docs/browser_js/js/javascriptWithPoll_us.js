@@ -110,24 +110,92 @@ for (let idx = 0; idx < questions_answers.length; idx++) {
 // polls[1]['answer_uids'][1]
 // polls[1]['answer_uids'][2]
 
-
 // 설문 문항을 가져오는 function 만들기
 function getQuestionByUid(question_uid) {
-  let question_desc;
-  for (question_list of questions_list) {
-    if (question_list["question_uid"] == question_uid) {
-      question_desc = question_list["question"];
+  // question_uid = 'Q1'
+  let question_desc = "";
+  for (question of questions_list) {
+    if (question["questions_uid"] === question_uid) {
+      question_desc = question["question"];
+      break;
     }
   }
-
   return question_desc;
 }
 
+function getAnswerByUid(answer_uid) {
+  let answer_desc = "";
+  for (answer of answer_list) {
+    if (answer["answer_uid"] === answer_uid) {
+      answer_desc = answer["answer"];
+      break;
+    }
+  }
+  return answer_desc;
+}
 
-for (poll of polls) { 
-    console.log(`${poll['questions_uid']}`);    // == polls[idx]
-    let answer_uids = poll["answer_uids"];
-    answer_uids.forEach((answer_uid, index) => {
-        console.log(`${index + 1}. ${answer_uid}`);
-    });
+for (poll of polls) {
+  let question_desc = getQuestionByUid(poll["questions_uid"]);
+  console.log(`${poll["questions_uid"]}. ${question_desc}`); // == polls[idx]
+  let answer_uids = poll["answer_uids"];
+  answer_uids.forEach((answer_uid, index) => {
+    console.log(`${index + 1}. ${getAnswerByUid(answer_uid)}`);
+  });
+}
+
+// Event handlers
+// Next 클릭 시 순서대로 설문 표시
+// 대상 변수는 polls
+
+// 설문 끝 Next 클릭 시 경고창 표시
+// radio 표시
+let queryNext = document.querySelector("#next");
+queryNext.addEventListener("click", setPollContent);
+
+let index = 0;
+function setPollContent() {
+  if (index > 4) {
+    alert("Finish!");
+  }
+
+  let queryContent = document.querySelector("#poll-contents");
+  // polls[0]["questions_uid"]; // 설문 문항
+  // polls[0]["answer_uids"]; // 설문 답항
+  // console.log(getQuestionByUid(polls[index]["questions_uid"]));
+  let desc = `<div>${index + 1}. ${getQuestionByUid(
+    polls[index]["questions_uid"]
+  )}</div>`;
+  polls[index]["answer_uids"].forEach((answer_uid, index) => {
+    // answers
+    // console.log(`${index + 1}. ${getAnswerByUid(answer_uid)}`);
+    desc =
+      desc +
+      `<div><input type="radio" name="example" id="" />(${
+        index + 1
+      }). ${getAnswerByUid(answer_uid)}</div>`;
+  });
+  queryContent.innerHTML = desc;
+  index++;
+}
+
+// Prev 클릭 시 설문 문항 앞으로 이동 표시(설문 없을 시 경고창 표시)
+let queryPrev = document.querySelector("#prev");
+queryPrev.addEventListener("click", prevcontent);
+function prevcontent() {
+  if (index < 0) {
+    alert("Null");
+  }
+  index--;
+  let queryContent = document.querySelector("#poll-contents");
+  let desc = `<div>${index + 1}. ${getQuestionByUid(
+    polls[index]["questions_uid"]
+  )}</div>`;
+  polls[index]["answer_uids"].forEach((answer_uid, index) => {
+    desc =
+      desc +
+      `<div><input type="radio" name="example" id="" />(${
+        index + 1
+      }). ${getAnswerByUid(answer_uid)}</div>`;
+  });
+  queryContent.innerHTML = desc;
 }
