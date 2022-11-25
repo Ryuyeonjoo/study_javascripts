@@ -65,27 +65,69 @@ const questions_answers = [
 
 //1차 방식: [Q1, Q2, Q3, Q4, Q5]
 //2차 방식: Array in Array [[Q1, E1, E2], [Q2, E1, E2, E3] ...]
-let polls = []; // 전체 묶음
-let questoin_compare;
-let questions = []; //내부 묶음
+// 3차 방식: Object in Array [{questions_uid:Q1, answer_uid: [E1, E2]}, ...]
+let polls = [];
+let question_compare;
+let questions = {}; // 내부 묶음
+let answer_uids = []; // 내부 설문 답변 묶음
 for (let idx = 0; idx < questions_answers.length; idx++) {
-    if (question_compare != questions_answers[idx]["questions_uid"]) {
-      if (questions.length > 0) {
-        polls.push(questions);
-        questions = [];
-      }
-      // console.log(`!= : ${questions_answers[idx]["questions_uid"]}`);
-      // console.log(`!= : ${questions_answers[idx]["answer_uid"]}`);
-      questions.push(questions_answers[idx]["questions_uid"]);
-      questions.push(questions_answers[idx]["answer_uid"]);
-    } else {
-      // console.log(`== : ${questions_answers[idx]["answer_uid"]}`);
-      questions.push(questions_answers[idx]["answer_uid"]);
-      if(idx +1 >= questions_answers.length) {
-        pollls.push(questions);
-      }
+  if (question_compare != questions_answers[idx]["questions_uid"]) {
+    if (Object.keys(questions).length > 0) {
+      questions["answer_uids"] = answer_uids;
+      polls.push(questions);
+      questions = {};
+      answer_uids = [];
     }
-    question_compare = questions_answers[idx]["questions_uid"]; // 이전 uid 입력
+
+    // console.log(`!= : ${questions_answers[idx]["questions_uid"]}`);
+    // console.log(`!= : ${questions_answers[idx]["answer_uid"]}`);
+    questions["questions_uid"] = questions_answers[idx]["questions_uid"];
+    answer_uids.push(questions_answers[idx]["answer_uid"]);
+  } else {
+    // console.log(`== : ${questions_answers[idx]["answer_uid"]}`);
+    answer_uids.push(questions_answers[idx]["answer_uid"]);
+    if (idx + 1 >= questions_answers.length) {
+      questions["answer_uids"] = answer_uids;
+      polls.push(questions);
+    }
   }
-  polls.push(questions); 
-  console.log(`${polls}`);
+  question_compare = questions_answers[idx]["questions_uid"]; // 이전 uid 입력
+}
+
+// console.log(`${polls}`);
+
+// 출력
+// [
+// {questions_uid:Q1, answer_uids: [E1, E2]},
+// {questions_uid:Q2, answer_uids: [E1, E2, E3]},
+// ...]
+// polls[0]['questions_uid']
+// polls[0]['answer_uids'][0]
+// polls[0]['answer_uids'][1]
+
+// polls[1]['questions_uid']
+// polls[1]['answer_uids'][0]
+// polls[1]['answer_uids'][1]
+// polls[1]['answer_uids'][2]
+
+
+// 설문 문항을 가져오는 function 만들기
+function getQuestionByUid(question_uid) {
+  let question_desc;
+  for (question_list of questions_list) {
+    if (question_list["question_uid"] == question_uid) {
+      question_desc = question_list["question"];
+    }
+  }
+
+  return question_desc;
+}
+
+
+for (poll of polls) { 
+    console.log(`${poll['questions_uid']}`);    // == polls[idx]
+    let answer_uids = poll["answer_uids"];
+    answer_uids.forEach((answer_uid, index) => {
+        console.log(`${index + 1}. ${answer_uid}`);
+    });
+}
