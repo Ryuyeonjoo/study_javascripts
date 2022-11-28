@@ -19,7 +19,7 @@ function removeEvent(event) {
 }
 
 function hideEvent(event) {
-  documentHide = document.querySelector("#hide");
+  tHide = document.querySelector("#hide");
   documentHide.style.visibility = "hidden";
 }
 
