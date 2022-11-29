@@ -24,7 +24,9 @@ function keydownDesc(desc) {
     queryKeydownDesc.innerHTML = desc;
 }
 
-let queryload = document.querySelector("body");
-queryload.addEventListener('load', (event) => {
+let queryload = document.querySelector("keydownDesc");
+queryload.addEventListener("load", queryLoad());
+
+function queryLoad(){
     queryload.innerHTML = "Done On Load!";
-});
+}
